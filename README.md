@@ -1,4 +1,4 @@
-# testlive-ui
+# stones_ui
 
 ## Project setup
 ```
