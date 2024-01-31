@@ -1,14 +1,14 @@
 <template>
     <n-collapse display-directive="show">
         <n-collapse-item
-            v-for="testplan in getChildren()"
-            :key="testplan.idTestPlan"
+            v-for="testplan in testPlanData"
+            :key="testplan.id_test_plan"
             :title="testplan.name"
-            :name="testplan.idTestPlan"
+            :name="testplan.id_test_plan"
         >
-            <TestPlan :id-parent="testplan.idTestPlan"/>
+            <TestPlan :id-parent="testplan.id_test_plan"/>
             <TestCaseComponent
-                :idTestPlan="testplan.idTestPlan"
+                :idTestPlan="testplan.id_test_plan"
             />
         </n-collapse-item>
     </n-collapse>
@@ -18,6 +18,8 @@
 import { defineComponent } from 'vue';
 import { NCollapse, NCollapseItem } from 'naive-ui'
 import TestCaseComponent from './TestCaseComponent.vue'
+import ITestPlan from '@/interfaces/TestPlan';
+import axios from 'axios';
 
 export default defineComponent({
     name: 'TestPlan',
@@ -31,50 +33,20 @@ export default defineComponent({
     },
     data() {
         return {
-            testPlanData: [
-                {
-                    'idTestPlan': 4,
-                    'name': 'Создание тест плана',
-                    'idParent': 1
-                },
-                {
-                    'idTestPlan': 5,
-                    'name': 'Создание тест кейса',
-                    'idParent': 1
-                },
-                {
-                    'idTestPlan': 6,
-                    'name': 'Создание тест шага',
-                    'idParent': 1
-                },
-                {
-                    'idTestPlan': 7,
-                    'name': 'Запрос на создание',
-                    'idParent': 2
-                },
-                {
-                    'idTestPlan': 8,
-                    'name': 'Соответствие сущностей',
-                    'idParent': 3
-                },
-                {
-                    'idTestPlan': 9,
-                    'name': 'Сущность тест плана',
-                    'idParent': 8
-                },
-                {
-                    'idTestPlan': 10,
-                    'name': 'Сущность тест кейса',
-                    'idParent': 8
-                }
-            ]
+            testPlanData: [] as ITestPlan[]
         }
     },
     methods: {
-        getChildren() {
-            return this.testPlanData.filter((el) => el.idParent === this.idParent);
-        }
-    }
+    },
+    mounted() {
+        axios.get(`/api/test_plan/?id_parent=${this.idParent}`)
+        .then((response) => {
+            this.testPlanData = response.data;
+            console.log(this.testPlanData);
+        }).catch(error => {
+            console.log(error)
+        })
+    },
 })
 </script>
 

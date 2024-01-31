@@ -1,16 +1,19 @@
 <template>
-  <TestPlanView />
+  <!-- <TestPlanView /> -->
+  <BaseView />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 // import TestPlanComponent from './components/TestPlanComponent.vue';
-import TestPlanView from './views/TestPlanView.vue'
+// import TestPlanView from './views/TestPlanView.vue'
+import BaseView from './views/BaseView.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    TestPlanView
+    // TestPlanView
+    BaseView
   }
 });
 </script>

@@ -1,8 +1,8 @@
 <template>
     <n-space vertical>
         <n-button 
-            v-for="item in getTestCase()"
-            :key="item.idTestCase"
+            v-for="item in testCaseData"
+            :key="item.id_test_case"
             size="small"
         >
             {{ item.name }}
@@ -13,6 +13,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { NButton, NSpace } from 'naive-ui';
+import axios from 'axios';
+import ITestCase from '@/interfaces/TestCase'
 
 export default defineComponent({
     name: 'TestCaseComponent',
@@ -25,32 +27,20 @@ export default defineComponent({
     },
     data() {
         return {
-            testCaseData: [
-                {
-                    'idTestCase': 1,
-                    'idTestPlan': 1,
-                    'name': 'Проерка создания'
-                },
-                {
-                    'idTestCase': 1,
-                    'idTestPlan': 1,
-                    'name': 'Проверка удаления'
-                },
-                {
-                    'idTestCase': 1,
-                    'idTestPlan': 7,
-                    'name': 'Cоздание тест шага'
-                }
-            ]
+            testCaseData: [] as ITestCase[]
         }
     },
     methods: {
-        getTestCase() {
-            this.testCaseData.forEach(el => console.log(el.idTestPlan));
-            console.log(this.testCaseData)
-            return this.testCaseData.filter((el) => el.idTestPlan === this.idTestPlan);
-        }
-    }
+    },
+    mounted() {
+        axios.get(`/api/test_case/?id_test_plan=${this.idTestPlan}`)
+        .then((response) => {
+            this.testCaseData = response.data;
+            console.log(this.testCaseData);
+        }).catch(error => {
+            console.log(error)
+        })
+    },
 })
 
 </script>
