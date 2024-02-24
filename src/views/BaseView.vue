@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 360px; position: relative">
+    <div style="height: 100vh; position: relative">
         <n-layout position="absolute">
             <n-layout-header style="height: 64px; padding: 24px" bordered>
                 TestLive
@@ -11,10 +11,9 @@
                     :default-size="0.7"
                     :min="0.3"
                     :max="0.7"
-                    style="height: 100%"
                 >
                     <template #1>
-                        <TestPlanView />
+                        <TestPlanComponent />
                     </template>
                     
                     <template #2>
@@ -31,7 +30,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { NLayout, NLayoutHeader, NSplit } from 'naive-ui';
-import TestPlanView from './TestPlanView.vue';
+import TestPlanComponent from '@/components/TestPlanComponent.vue'
 
 export default defineComponent({
     name: 'BaseView',
@@ -39,7 +38,7 @@ export default defineComponent({
         NLayout,
         NLayoutHeader,
         NSplit,
-        TestPlanView
+        TestPlanComponent
     }
 })
 
