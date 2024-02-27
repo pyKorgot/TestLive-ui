@@ -13,12 +13,12 @@
                     :max="0.7"
                 >
                     <template #1>
-                        <TestPlanComponent />
+                        <TestPlanComponent @id_test_case="(id_test_case) => id_test_case_from_tree = id_test_case" />
                     </template>
                     
                     <template #2>
                         <div>
-                            Pane 2
+                            <TestCaseComponent :idTestCase="id_test_case_from_tree"/>
                         </div>
                     </template>
                 </n-split>
@@ -30,7 +30,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { NLayout, NLayoutHeader, NSplit } from 'naive-ui';
-import TestPlanComponent from '@/components/TestPlanComponent.vue'
+import TestPlanComponent from '@/components/TestPlanComponent.vue';
+import TestCaseComponent from '@/components/TestCaseComponent.vue';
 
 export default defineComponent({
     name: 'BaseView',
@@ -38,7 +39,13 @@ export default defineComponent({
         NLayout,
         NLayoutHeader,
         NSplit,
-        TestPlanComponent
+        TestPlanComponent,
+        TestCaseComponent
+    },
+    data() {
+        return {
+            id_test_case_from_tree: NaN
+        }
     }
 })
 
