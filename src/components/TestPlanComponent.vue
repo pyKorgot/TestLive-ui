@@ -1,11 +1,21 @@
 <template>
     <div class="test_plan_comp">
         <n-layout position="absolute">
-            <n-layout-header style="height: 64px; padding: 24px" bordered>
-                <n-button type="primary">
+            <n-layout-header
+                style="height: 30px"
+                bordered
+            >
+                <n-button
+                    style="height: 18px; float: right; margin: 5px;" 
+                    type="primary"
+                >
                     Add Folder
                 </n-button>
-                <n-button type="info">
+                <n-button
+                    style="height: 18px; float: right; margin: 5px;"
+                    type="info"
+                    :disabled="!id_test_plan"
+                >
                     Add Test Case
                 </n-button>
             </n-layout-header>
@@ -42,7 +52,8 @@ export default defineComponent({
     },
     data() {
         return {
-            testPlanData: [] as ITestPlan[]
+            testPlanData: [] as ITestPlan[],
+            id_test_plan: NaN as number
         }
     },
     emits: ['id_test_case'],
@@ -73,11 +84,14 @@ export default defineComponent({
         },
         handleCheckedKeysChange (checkedKeys: string[]) {
             this.$emit('id_test_case', NaN);
+            this.id_test_plan = NaN;
             if (checkedKeys && checkedKeys.length === 1) {
                 let id: string = checkedKeys[0];
                 if (id.includes('tc')) {
                     this.$emit('id_test_case', Number(id.slice(0, -2)));
                     return;
+                } else if (id.includes('tp')) {
+                    this.id_test_plan = Number(id.slice(0, -2));
                 }
             }
         },
