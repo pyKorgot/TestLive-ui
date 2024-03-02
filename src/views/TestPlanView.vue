@@ -30,11 +30,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { NLayout, NLayoutHeader, NSplit } from 'naive-ui';
-import TestPlanComponent from '@/components/TestPlanComponent.vue';
-import TestCaseComponent from '@/components/TestCaseComponent.vue';
+import TestPlanComponent from '@/components/test_plan/TestPlanComponent.vue';
+import TestCaseComponent from '@/components/test_case/TestCaseComponent.vue';
 
 export default defineComponent({
-    name: 'BaseView',
+    name: 'TestPlanView',
     components: {
         NLayout,
         NLayoutHeader,

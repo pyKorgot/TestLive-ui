@@ -1,19 +1,19 @@
 <template>
   <!-- <TestPlanView /> -->
   <n-config-provider :theme="darkTheme">
-    <BaseView />
+    <TestPlanView />
   </n-config-provider>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BaseView from './views/BaseView.vue';
 import { darkTheme, NConfigProvider } from 'naive-ui';
+import TestPlanView from './views/TestPlanView.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    BaseView,
+    TestPlanView,
     NConfigProvider
   },
   setup() {
