@@ -1,55 +1,54 @@
 <template>
-    <n-collapse>
-        <n-collapse-item
-            v-for="testplan in testPlanData"
-            :key="testplan.idTestPlan"
-            :title="testplan.name"
-            :name="testplan.idTestPlan"
-        >
-            <TestPlanComponent
-                :idParent="testplan.idTestPlan"
-            />
-            <TestCaseComponent :id-test-plan="testplan.idTestPlan"/>
-        </n-collapse-item>
-    </n-collapse>
+    <div style="height: 100vh; position: relative">
+        <n-layout position="absolute">
+            <n-layout-header style="height: 64px; padding: 24px" bordered>
+                TestLive
+            </n-layout-header>
+
+            <n-layout has-sider position="absolute" style="top: 64px; bottom: 64px; height: 100%">
+                <n-split 
+                    direction="horizontal"
+                    :default-size="0.7"
+                    :min="0.3"
+                    :max="0.7"
+                >
+                    <template #1>
+                        <TestPlanComponent @id_test_case="(id_test_case) => id_test_case_from_tree = id_test_case" />
+                    </template>
+                    
+                    <template #2>
+                        <div>
+                            <TestCaseComponent :idTestCase="id_test_case_from_tree"/>
+                        </div>
+                    </template>
+                </n-split>
+            </n-layout>
+        </n-layout>
+    </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { NCollapse, NCollapseItem } from 'naive-ui';
-import TestPlanComponent from '@/components/TestPlanComponent.vue';
-import TestCaseComponent from '@/components/TestCaseComponent.vue';
+import { NLayout, NLayoutHeader, NSplit } from 'naive-ui';
+import TestPlanComponent from '@/components/test_plan/TestPlanComponent.vue';
+import TestCaseComponent from '@/components/test_case/TestCaseComponent.vue';
 
 export default defineComponent({
     name: 'TestPlanView',
     components: {
-        NCollapse,
-        NCollapseItem,
+        NLayout,
+        NLayoutHeader,
+        NSplit,
         TestPlanComponent,
         TestCaseComponent
     },
     data() {
         return {
-            testPlanData: [
-                {
-                    'idTestPlan': 1,
-                    'name': 'Основное окно',
-                    'idParent': null
-                },
-                {
-                    'idTestPlan': 2,
-                    'name': 'API',
-                    'idParent': null
-                },
-                {
-                    'idTestPlan': 3,
-                    'name': 'База данных',
-                    'idParent': null
-                }
-            ]
+            id_test_case_from_tree: NaN
         }
-    },
+    }
 })
+
 </script>
 
 <style scoped>
