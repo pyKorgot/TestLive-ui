@@ -19,6 +19,7 @@ export default defineComponent({
         return {
             testPlanData: [] as ITestPlan[],
             id_test_plan: NaN as number,
+            id_test_case: NaN as number,
             reloadTree: ref(false)
         }
     },
@@ -39,10 +40,12 @@ export default defineComponent({
         handleCheckedKeysChange (checkedKeys: string[]) {
             this.$emit('id_test_case', NaN);
             this.id_test_plan = NaN;
+            this.id_test_case = NaN;
             if (checkedKeys && checkedKeys.length === 1) {
                 let id: string = checkedKeys[0];
                 if (id.includes('tc')) {
                     this.$emit('id_test_case', Number(id.slice(0, -2)));
+                    this.id_test_case = Number(id.slice(0, -2));
                     return;
                 } else if (id.includes('tp')) {
                     this.id_test_plan = Number(id.slice(0, -2));
@@ -73,6 +76,7 @@ export default defineComponent({
             >
                 <TestPlanHeaderComponent
                     :id_test_plan="id_test_plan"
+                    :id_test_case="id_test_case"
                     @reloadTree="(reload_tree) => reloadTree = !!reload_tree"
                 />
             </n-layout-header>

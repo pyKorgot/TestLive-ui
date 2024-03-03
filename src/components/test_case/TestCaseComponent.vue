@@ -1,11 +1,9 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { NSpace, NLayout, NLayoutHeader, NButton, NInput } from 'naive-ui';
-import axios from 'axios';
+import { NSpace, NLayout, NLayoutHeader, NButton, NInput, NInputGroup } from 'naive-ui';
 
 import ITestStep from '@/interfaces/TestStep';
 import TestStepApi from '@/api/TestStep'
-// import TestStepComponent from '@/components/test_case/TestStepComponent.vue';
 
 export default defineComponent({
     name: 'TestCaseComponent',
@@ -15,8 +13,7 @@ export default defineComponent({
         NLayoutHeader,
         NButton,
         NInput,
-        // NForm,
-        // TestStepComponent,
+        NInputGroup,
     },
     props: {
         idTestCase: Number
@@ -52,9 +49,13 @@ export default defineComponent({
                 else 
                     newSteps.push(step);
             });
+            let resultUpdate = false;
+            let resultCreate = false;
+            if (updateSteps.length)
+                resultUpdate = await TestStepApi.updateTestStep(updateSteps);
+            if (newSteps)
+                resultCreate = await TestStepApi.createTestStep(newSteps);
 
-            const resultUpdate = await TestStepApi.updateTestStep(updateSteps);
-            const resultCreate = await TestStepApi.createTestStep(newSteps);
             if (resultUpdate || resultCreate) {
                 this.testStepData = await TestStepApi.getTestSteps(this.idTestCase);
                 this.editableMode = false;
@@ -118,13 +119,27 @@ export default defineComponent({
                     v-for="item in testStepData"
                     :key="item.id_test_step"
                 >
+                    <n-input-group>
+                        <span
+                            style="font-size: 17px; margin: 0 5px 0 5px;"
+                        >
+                            {{ item.number_step }}
+                        </span>
+                        <n-input
+                            type="text"
+                            size="small"
+                            placeholder="Name Step"
+                            :disabled="!editableMode"
+                            v-model:value="item.name_step"
+                        />
+                    </n-input-group>
+
                     <n-input
                         type="textarea"
                         size="small"
                         placeholder="Playback"
                         :disabled="!editableMode"
                         v-model:value="item.playback"
-                        round
                     />
                     <n-input
                         type="textarea"
@@ -132,7 +147,6 @@ export default defineComponent({
                         placeholder="Excepted Result"
                         :disabled="!editableMode"
                         v-model:value="item.excepted"
-                        round
                     />
 
                     <br />
